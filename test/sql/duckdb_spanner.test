@@ -1,0 +1,23 @@
+# name: test/sql/duckdb_spanner.test
+# description: test duckdb_spanner extension
+# group: [sql]
+
+# Before we load the extension, this will fail
+statement error
+SELECT duckdb_spanner('Sam');
+----
+Catalog Error: Scalar Function with name duckdb_spanner does not exist!
+
+# Require statement will ensure this test is run with this extension loaded
+require duckdb_spanner
+
+# Confirm the extension works
+query I
+SELECT duckdb_spanner('Sam');
+----
+DuckdbSpanner Sam 🐥
+
+query I
+SELECT duckdb_spanner_openssl_version('Michael') ILIKE 'DuckdbSpanner Michael, my linked OpenSSL version is OpenSSL%';
+----
+true
